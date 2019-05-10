@@ -4,16 +4,20 @@ using System.Net;
 using System.Net.Http;
 using Microsoft.AspNetCore.Mvc;
 using Lab1.Models;
-using Lab1.Storage;
+using  Lab1.Storage;
 
-namespace Lab1.Controllers
+namespace  Lab1.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     public class LabController : ControllerBase
     {
-        private static IStorage<Lab1Data> _memCache = new MemCache();
+        private IStorage<Lab1Data> _memCache;
 
+         public LabController(IStorage<Lab1Data> memCache)
+        {
+            _memCache = memCache;
+        }
         [HttpGet]
         public ActionResult<IEnumerable<Lab1Data>> Get()
         {
@@ -65,4 +69,5 @@ namespace Lab1.Controllers
 
             return Ok($"{valueToRemove.ToString()} has been removed");
         }
-    }}
+    }
+}
